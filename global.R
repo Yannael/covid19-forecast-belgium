@@ -13,12 +13,15 @@ options(DT.options = list(pageLength = 25))
 source("get_next_saturday.R")
 source("read_processed_data.R")
 
+mortality_filename = "data-truth/truth-incident-deaths-sciensano.csv"
+mortality_filename = "data-truth/truth-incident-deaths.csv"
+
 # Get truth 
 truth = bind_rows(
-  read_csv("data-truth/truth-incident-deaths-sciensano.csv") %>% 
+  read_csv(mortality_filename) %>% 
     mutate(inc_cum = "inc", unit = "day"),
   
-  read_csv("data-truth/truth-incident-deaths-sciensano.csv") %>% 
+  read_csv(mortality_filename) %>% 
     dplyr::mutate(week = MMWRweek::MMWRweek(date)$MMWRweek) %>%
     dplyr::group_by(location,week) %>%
     dplyr::summarize(date = max(date),
