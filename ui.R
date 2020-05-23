@@ -6,17 +6,16 @@ library(DT)
 ui <- navbarPage(
   "Explore:",
   
-
-  tabPanel("Latest Viz",
+  tabPanel("Predictions",
            sidebarLayout(
              sidebarPanel(
-               selectInput("team",         "Team", sort(unique(latest_plot_data$team         )), "YGG"),
-               selectInput("model",       "Model", sort(unique(latest_plot_data$model        ))),
-               selectInput("target",     "Target", sort(unique(latest_plot_data$simple_target))),
-               selectInput("location", "Location", sort(unique(latest_plot_data$location   )))
+               selectInput("team_model", "Team-Model", sort(unique(all_data$team_model))),
+               selectInput("resolution", "Resolution", sort(unique(all_data$unit))),
+               selectInput("location", "Location", sort(unique(all_data$location))),
+               selectInput("forecast_date", "Forecast date:", sort(unique(all_data$forecast_date)),max(all_data$forecast_date))
              ), 
              mainPanel(
-               plotOutput("latest_plot")
+               plotlyOutput("prediction_plot")
              )
            )
   ),
