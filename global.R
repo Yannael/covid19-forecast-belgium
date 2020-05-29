@@ -10,6 +10,7 @@ library("MMWRweek")
 library("tidyr")
 library("readr")
 
+
 options(DT.options = list(pageLength = 25))
 
 mortality_filename = "data-truth/truth-incident-deaths.csv"
@@ -22,14 +23,16 @@ truth = bind_rows(
   read_csv(mortality_filename) %>% 
     dplyr::mutate(week = MMWRweek::MMWRweek(date)$MMWRweek) %>%
     dplyr::group_by(location,week) %>%
-    dplyr::summarize(date = max(date),
+    dplyr::summarize(date = min(date),
+                     n_values = length(value),
                      value = sum(value, na.rm = TRUE)) %>%
+    dplyr::filter(n_values==7) %>%
     dplyr::mutate(inc_cum = "inc", unit = "wk") 
 ) %>%
 mutate(death_cases = "death",
        simple_target = paste(unit, "ahead", inc_cum, death_cases)) 
 
-# Get predictions 
+# Get other predictions 
 
 read_my_csv = function(f, into) {
   readr::read_csv(f,
@@ -76,4 +79,22 @@ all_data <- all_data %>%
   tidyr::pivot_wider(
     names_from = quantile,
     values_from = value
-  )
+  ) %>%
+  dplyr::mutate(week = MMWRweek::MMWRweek(target_end_date)$MMWRweek) 
+
+
+# Compare models
+
+truth_wk <- truth %>%
+  filter(unit == "wk") %>%
+  select(week,value)
+
+all_data_wk <- all_data %>%
+  filter(unit == "wk")  %>% 
+  left_join(truth_wk,by="week") 
+
+all_data_wk[,"error"]<-abs(all_data_wk$point-all_data_wk$value)
+
+prediction_error <- all_data_wk %>%
+  select(team_model,forecast_date,location,target,target_end_date,error)
+
