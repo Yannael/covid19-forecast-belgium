@@ -7,7 +7,7 @@ Compare the predictions of existing mortality forecasting models for Belgium, fo
 
 For the moment, this repository provides:
 
-* A notebook - Data-Collection.ipynb, that collects predictions from the YYG and IHME forecasting models from the 11/04 to the 23-05
+* A notebook - Data-Collection.ipynb, that collects predictions from the YYG and IHME forecasting models from the 11/04 to the 23/05
 * A Shiny interface to visualise the predictions, and assess/compare the model forecasting errors 
 
 TODO:
