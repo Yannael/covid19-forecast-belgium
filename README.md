@@ -55,3 +55,8 @@ Reich forecasts only provided for US data. Belgium data is in https://github.com
 ### IHME
 
 Archived predictions are available from http://www.healthdata.org/covid/data-downloads.
+
+
+## Acknowledgements
+
+* Methodology and code substantially designed thanks to Reich Lab - https://github.com/reichlab/covid19-forecast-hub 
