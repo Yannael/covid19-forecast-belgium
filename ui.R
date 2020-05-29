@@ -2,23 +2,28 @@ library(shiny)
 library(shinydashboard)
 library(plotly)
 library(DT)
+library(rpivotTable)
 
 ui <- navbarPage(
   "Explore:",
   
   tabPanel("Predictions",
-           sidebarLayout(
-             sidebarPanel(
+           #sidebarLayout(
+          #   sidebarPanel(
                selectInput("team_model", "Team-Model", sort(unique(all_data$team_model))),
                selectInput("resolution", "Resolution", sort(unique(all_data$unit))),
                selectInput("location", "Location", sort(unique(all_data$location))),
-               selectInput("forecast_date", "Forecast date:", sort(unique(all_data$forecast_date)),max(all_data$forecast_date))
-             ), 
-             mainPanel(
+               selectInput("forecast_date", "Forecast date:", sort(unique(all_data$forecast_date)),max(all_data$forecast_date)),
+           #  ), 
+          #   mainPanel(
                plotlyOutput("prediction_plot")
-             )
-           )
-  ),
+             ),
+           #)
+ # ),
+  
+  tabPanel("Model accuracy comparison",
+           rpivotTableOutput("rpivot_model_accuracy")),
+           
   
   tabPanel("All",              
            DT::DTOutput("all_data")),

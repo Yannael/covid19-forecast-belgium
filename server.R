@@ -1,4 +1,5 @@
 library(DT)
+library(rpivotTable)
 
 server <- function(input, output, session) {
   
@@ -31,18 +32,23 @@ server <- function(input, output, session) {
     
     m <- list(l=100, r=20, b=100, t=100)
     
-    graph_title <- paste0('Mortality per day and predictions for the next 4 weeks. \n Model : ',input$team_model,sep="")
+    graph_title <- paste0('Mortality predictions for the next 4 weeks.',sep="")
     
     d    <- data_ftmtl()
     
     if (NROW(d)>0) {
     
-    fig <- plot_ly()
+    fig <- plot_ly(type = "scatter", mode='lines')
     
-    fig <- fig %>% add_lines(x = truth_plot()$date, y = truth_plot()$value,
+    fig <- fig %>% add_trace(x = truth_plot()$date, y = truth_plot()$value, type = "scatter", mode='lines',
+                             color = I("Green"), name = "Observed")
+    fig <- fig %>% add_trace(x = truth_plot()$date, y = truth_plot()$value, type = "scatter", mode='markers',
                              color = I("Green"), name = "Observed")
     
-    fig <- fig %>% add_lines(x = d$target_end_date, y = d$point, color = I("blue"), name = "Prediction")
+    fig <- fig %>% add_trace(x = d$target_end_date, y = d$point, type = "scatter", mode='lines',
+                             color = I("blue"), name = "Prediction")
+    fig <- fig %>% add_trace(x = d$target_end_date, y = d$point, type = "scatter", mode='markers',
+                             color = I("blue"), name = "Prediction")
     
     fig <- fig %>% add_ribbons(x = d$target_end_date, ymin = d$`0.025`, d$`0.975`,
                                color = I("gray80"), name = "95% confidence")
@@ -54,6 +60,12 @@ server <- function(input, output, session) {
     fig
     }
     
+  })
+  
+  output$rpivot_model_accuracy <- renderRpivotTable({
+              rpivotTable(data =  prediction_error , rows = c( "forecast_date"), cols="team_model",
+              vals = "error", aggregatorName = "Average", rendererName = "Table",
+              width="100%", height="500px")
   })
   
   output$all_data <- DT::renderDT(all_data, filter = "top")
