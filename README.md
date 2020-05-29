@@ -1,6 +1,6 @@
 ## Goal
 
-Compare the predictions of existing mortality forecasting models for Belgium, following what the CDC does for the US - https://www.cdc.gov/coronavirus/2019-ncov/covid-data/forecasting-us.html. For the US, the forecast from around 15 models are collected every week by the ReichLab
+Compare the predictions of existing mortality forecasting models for Belgium, following what the CDC does for the US - https://www.cdc.gov/coronavirus/2019-ncov/covid-data/forecasting-us.html. For the US, the forecasts from around 15 models are collected every week by the Reich Lab
 
 * Predictions can be visualised at https://reichlab.io/covid19-forecast-hub/
 * Predictions are uploaded every Monday on their Github repository by the model developers https://github.com/reichlab/covid19-forecast-hub
@@ -13,7 +13,7 @@ For the moment, this repository provides:
 TODO:
 
 * Extend the data collection to more models
-* Collect predictions on new hospitalisations  
+* Collect predictions for new hospitalisations  
 
 ## Data format
 
